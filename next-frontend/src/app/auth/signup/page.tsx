@@ -1,34 +1,32 @@
 "use client";
-import React from "react";
 import AuthForm from "@/components/AuthForm";
 import { useAuth } from "@/context/AuthContext";
 import { post } from "@/lib/API";
-import { notifyError } from "../../../utils/notifications"
+import { notifyError } from "@/utils/notifications";
+import React from "react";
 
-
-const Login = () => {
+const Signup = () => {
   const { login }: any = useAuth();
-
-  console.log("hhg")
-  const handleLogin = async (data: { email: string; password: string }) => {
-    console.log("first")
+  
+  const handleSignup = async (data: { email: string; password: string }) => {
     try {
-      const response: any = await post("user/login", data);
+      const response: any = await post("user/signup", data);
       login(response.token, response.role);
     } catch (err: any) {
-      console.log(err,"------")
+      console.log(err, "------");
       if (err.code) {
         notifyError(err.code);
       } else {
         notifyError("Unknown error");
-      }    }
+      }
+    }
   };
 
   return (
     <div className="h-screen flex items-center justify-center">
-      <AuthForm type="login" onSubmit={handleLogin} />
+      <AuthForm type="signup" onSubmit={handleSignup} />
     </div>
   );
 };
 
-export default Login;
+export default Signup;

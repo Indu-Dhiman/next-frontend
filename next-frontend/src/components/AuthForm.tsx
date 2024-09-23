@@ -1,89 +1,93 @@
-"use client"
-import React, { useState } from 'react';
+"use client";
+import Link from "next/link";
+import React from "react";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import { validationSchema } from "@/utils/validation";
 
 interface AuthFormProps {
-  type: 'login' | 'signup';
-  onSubmit: (data: { username: string; email: string; password: string; role?: string }) => void;
+  type: "login" | "signup";
+  onSubmit: (data: {
+    username: string;
+    email: string;
+    password: string;
+    role?: string;
+  }) => void;
 }
 
 const AuthForm: React.FC<AuthFormProps> = ({ type, onSubmit }) => {
-  const [formData, setFormData] = useState({
-    username: '',
-    email: '',
-    password: '',
-    role: type === 'signup' ? 'user' : undefined,
-  });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onSubmit(formData);
+  const initialValues = {
+    username: "",
+    email: "",
+    password: "",
+    role: type === "signup" ? "user" : undefined,
   };
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white shadow-md rounded-lg">
-      <h2 className="text-2xl font-bold text-center mb-6">{type === 'login' ? 'Login' : 'Sign Up'}</h2>
-      <form onSubmit={handleSubmit}>
-        {type === 'signup' && (
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700">Username</label>
-            <input
-              type="text"
-              name="username"
-              value={formData.username}
-              onChange={handleChange}
-              required
-              className="mt-1 p-2 border border-gray-300 rounded-md w-full"
-            />
-          </div>
-        )}
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">Email</label>
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-            className="mt-1 p-2 border border-gray-300 rounded-md w-full"
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">Password</label>
-          <input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-            className="mt-1 p-2 border border-gray-300 rounded-md w-full"
-          />
-        </div>
-        {type === 'signup' && (
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700">Role</label>
-            <select
-              name="role"
-              value={formData.role}
-              onChange={()=>handleChange}
-              className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+    <div className="max-w-md mx-auto p-8 bg-white shadow-lg rounded-lg">
+      <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">
+        {type === "login" ? "Login" : "Sign Up"}
+      </h2>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={onSubmit}
+      >
+        {({ handleSubmit }) => (
+          <Form onSubmit={handleSubmit}>
+            {type === "signup" && (
+              <div className="mb-5">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Username
+                </label>
+                <Field
+                  type="text"
+                  name="username"
+                  className="mt-1 p-3 border border-gray-300 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-150"
+                />
+                <ErrorMessage name="username" component="div" className="text-red-500 text-sm" />
+              </div>
+            )}
+            <div className="mb-5">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Email
+              </label>
+              <Field
+                type="email"
+                name="email"
+                className="mt-1 p-3 border border-gray-300 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-150"
+              />
+              <ErrorMessage name="email" component="div" className="text-red-500 text-sm" />
+            </div>
+            <div className="mb-5">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Password
+              </label>
+              <Field
+                type="password"
+                name="password"
+                className="mt-1 p-3 border border-gray-300 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-150"
+              />
+              <ErrorMessage name="password" component="div" className="text-red-500 text-sm" />
+            </div>
+          
+            <button
+              type="submit"
+              className="w-full bg-[#164e63] text-white py-3 rounded-md transition duration-150"
             >
-              <option value="user">User</option>
-              <option value="admin">Admin</option>
-            </select>
-          </div>
+              {type === "login" ? "Login" : "Sign Up"}
+            </button>
+            {type === "login" && (
+              <p className="mt-6 text-center text-gray-600">
+                Don't have an account?{" "}
+                <Link href="/auth/signup" className="text-blue-500 hover:underline">
+                  Sign up here
+                </Link>
+              </p>
+            )}
+          </Form>
         )}
-        <button
-          type="submit"
-          className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600"
-        >
-          {type === 'login' ? 'Login' : 'Sign Up'}
-        </button>
-      </form>
+      </Formik>
     </div>
   );
 };

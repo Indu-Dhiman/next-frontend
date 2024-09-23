@@ -1,5 +1,6 @@
 // pages/user/home.tsx
-import ProtectedRoute from '../../components/ProtectedRoute';
+"use client"
+import ProtectedRoute from '../../../components/ProtectedRoute';
 
 const UserHome = () => {
   return (

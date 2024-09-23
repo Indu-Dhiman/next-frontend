@@ -1,7 +1,8 @@
 // context/AuthContext.tsx
+"use client"
 import { createContext, useContext, useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 type AuthContextType = {
   user: string | null;
@@ -18,17 +19,17 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
 
   useEffect(() => {
-    // Check token and role on mount
     const token = Cookies.get('token');
-    const userRole = Cookies.get('role');
-
-    if (token && userRole) {
+  
+    if (token) {
+      const userRole = Cookies.get('role');
       setUser(token);
       setRole(userRole as 'admin' | 'user');
-    } else {
-      router.push('/auth/login');
+      // Redirect to home page based on role
+      router.push(userRole === 'admin' ? '/admin/dashboard' : '/user/home');
     }
   }, []);
+  
 
   const login = (token: string, userRole: 'admin' | 'user') => {
     Cookies.set('token', token);

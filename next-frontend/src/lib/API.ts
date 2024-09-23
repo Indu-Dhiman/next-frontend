@@ -16,17 +16,25 @@ export async function get<T>(url: string): Promise<T> {
   return response.json();
 }
 
-// Common POST request function
 export async function post<T>(url: string, data: unknown): Promise<T> {
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${url}`, {
     method: 'POST',
-    headers,
+    headers: {
+      'Content-Type': 'application/json', 
+    },
     body: JSON.stringify(data),
   });
+
+  const responseData = await response.json(); 
+
   if (!response.ok) {
-    throw new Error(`Error: ${response.statusText}`);
+      throw {
+      message: responseData?.error?.message || "Unknown error",
+      code: responseData?.error?.code || "UNKNOWN_ERROR",
+    };
   }
-  return response.json();
+
+  return responseData; // Return the parsed response data
 }
 
 // Common PUT request function
