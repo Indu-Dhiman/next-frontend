@@ -1,6 +1,5 @@
-// src/components/AuthForm.tsx
-
-import React from 'react';
+"use client"
+import React, { useState } from 'react';
 
 interface AuthFormProps {
   type: 'login' | 'signup';
@@ -8,7 +7,7 @@ interface AuthFormProps {
 }
 
 const AuthForm: React.FC<AuthFormProps> = ({ type, onSubmit }) => {
-  const [formData, setFormData] = React.useState({
+  const [formData, setFormData] = useState({
     username: '',
     email: '',
     password: '',

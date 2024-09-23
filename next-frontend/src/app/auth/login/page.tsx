@@ -1,11 +1,10 @@
 // src/pages/Login.tsx
-
+"use client"
 import AuthForm from '@/components/AuthForm';
 import React from 'react';
 
 const Login = () => {
   const handleLogin = (data: { email: string; password: string }) => {
-    // Handle login logic here
     console.log('Login data:', data);
   };
 
