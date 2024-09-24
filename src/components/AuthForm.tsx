@@ -15,7 +15,6 @@ interface AuthFormProps {
 }
 
 const AuthForm: React.FC<AuthFormProps> = ({ type, onSubmit }) => {
-
   const initialValues = {
     username: "",
     email: "",
@@ -45,7 +44,11 @@ const AuthForm: React.FC<AuthFormProps> = ({ type, onSubmit }) => {
                   name="username"
                   className="mt-1 p-3 border border-gray-300 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-150"
                 />
-                <ErrorMessage name="username" component="div" className="text-red-500 text-sm" />
+                <ErrorMessage
+                  name="username"
+                  component="div"
+                  className="text-red-500 text-sm"
+                />
               </div>
             )}
             <div className="mb-5">
@@ -57,7 +60,11 @@ const AuthForm: React.FC<AuthFormProps> = ({ type, onSubmit }) => {
                 name="email"
                 className="mt-1 p-3 border border-gray-300 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-150"
               />
-              <ErrorMessage name="email" component="div" className="text-red-500 text-sm" />
+              <ErrorMessage
+                name="email"
+                component="div"
+                className="text-red-500 text-sm"
+              />
             </div>
             <div className="mb-5">
               <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -68,9 +75,13 @@ const AuthForm: React.FC<AuthFormProps> = ({ type, onSubmit }) => {
                 name="password"
                 className="mt-1 p-3 border border-gray-300 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-150"
               />
-              <ErrorMessage name="password" component="div" className="text-red-500 text-sm" />
+              <ErrorMessage
+                name="password"
+                component="div"
+                className="text-red-500 text-sm"
+              />
             </div>
-          
+
             <button
               type="submit"
               className="w-full bg-[#164e63] text-white py-3 rounded-md transition duration-150"
@@ -79,8 +90,11 @@ const AuthForm: React.FC<AuthFormProps> = ({ type, onSubmit }) => {
             </button>
             {type === "login" && (
               <p className="mt-6 text-center text-gray-600">
-                Don't have an account?{" "}
-                <Link href="/auth/signup" className="text-blue-500 hover:underline">
+                Don&apos;t have an account?{" "}
+                <Link
+                  href="/auth/signup"
+                  className="text-blue-500 hover:underline"
+                >
                   Sign up here
                 </Link>
               </p>

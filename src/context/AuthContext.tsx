@@ -1,5 +1,5 @@
 // context/AuthContext.tsx
-"use client"
+"use client";
 import { createContext, useContext, useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
@@ -20,16 +20,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const token = Cookies.get('token');
-  
-    if (token && role) {
-      const userRole = Cookies.get('role');
+    const userRole = Cookies.get('role');
+
+    if (token && userRole) {
       setUser(token);
       setRole(userRole as 'admin' | 'user');
       // Redirect to home page based on role
       router.push(userRole === 'admin' ? '/admin/dashboard' : '/user/home');
     }
-  }, []);
-  
+  }, [router]); // Added router to dependency array
 
   const login = (token: string, userRole: 'admin' | 'user') => {
     Cookies.set('token', token);
@@ -60,4 +59,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+  return context;
+};

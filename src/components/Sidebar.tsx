@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { FiMenu, FiX, FiHome, FiSettings, FiUser } from 'react-icons/fi'; // Icons
 
 const Sidebar = () => {
-  const { role }: any = useAuth();
+  const { role } = useAuth();
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
 

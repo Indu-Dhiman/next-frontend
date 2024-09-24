@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation';
 import { FiLogOut, FiUser } from 'react-icons/fi'; 
 
 const Header = () => {
-  const { user, role, logout }: any = useAuth();
+  const {  role, logout } = useAuth();
   const router = useRouter();
 
   const handleLogout = () => {

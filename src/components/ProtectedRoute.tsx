@@ -1,9 +1,10 @@
+// components/ProtectedRoute.tsx
 import { useAuth } from '../context/AuthContext';
 import { useRouter, usePathname } from 'next/navigation';
 import { useEffect } from 'react';
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  const { user, role }: any = useAuth();
+  const { user, role } = useAuth(); // Remove any here
   const router = useRouter();
   const pathname = usePathname(); // Use usePathname to get the current path
 
