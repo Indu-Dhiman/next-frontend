@@ -7,15 +7,16 @@ import React from "react";
 
 const Signup = () => {
   const { login }: any = useAuth();
-  
+
   const handleSignup = async (data: { email: string; password: string }) => {
     try {
       const response: any = await post("user/signup", data);
-      login(response.token, response.role);
+      console.log(response,"respo")
+      login(response.data?.accessToken, response?.data?.user?.role);
     } catch (err: any) {
       console.log(err, "------");
       if (err.code) {
-        notifyError(err.code);
+        notifyError(err.code,"2000","id");
       } else {
         notifyError("Unknown error");
       }

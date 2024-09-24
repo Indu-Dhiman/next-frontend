@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const token = Cookies.get('token');
   
-    if (token) {
+    if (token && role) {
       const userRole = Cookies.get('role');
       setUser(token);
       setRole(userRole as 'admin' | 'user');

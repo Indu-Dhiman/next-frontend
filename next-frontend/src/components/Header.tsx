@@ -1,6 +1,6 @@
 import { useAuth } from '../context/AuthContext';
 import { useRouter } from 'next/navigation';
-import { FiLogOut, FiUser } from 'react-icons/fi'; // Icons
+import { FiLogOut, FiUser } from 'react-icons/fi'; 
 
 const Header = () => {
   const { user, role, logout }: any = useAuth();

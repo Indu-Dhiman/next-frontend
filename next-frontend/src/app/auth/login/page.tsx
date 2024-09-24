@@ -18,7 +18,7 @@ const Login = () => {
     } catch (err: any) {
       console.log(err,"------")
       if (err.code) {
-        notifyError(err.code);
+        notifyError(err.code,"2000","id");
       } else {
         notifyError("Unknown error");
       }    }
