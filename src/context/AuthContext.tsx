@@ -1,4 +1,3 @@
-// context/AuthContext.tsx
 "use client";
 import { createContext, useContext, useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
@@ -17,7 +16,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<string | null>(null);
   const [role, setRole] = useState<'admin' | 'user' | null>(null);
   const router = useRouter();
-
+console.log(user,"user")
   useEffect(() => {
     const token = Cookies.get('token');
     const userRole = Cookies.get('role');
