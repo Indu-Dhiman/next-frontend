@@ -1,55 +1,65 @@
-
-"use client"
-import React, { useState } from 'react';
+"use client";
+import { post } from "@/lib/API";
+import React, { useState } from "react";
 
 export default function ProfilePage() {
-  const [name, setName] = useState('John Doe'); 
-  const [image, setImage] = useState('/default-profile.png'); 
+  const [name, setName] = useState<any>(null);
+  const [image, setImage] = useState<any>(null);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
   };
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
       setSelectedImage(file);
-      setImage(URL.createObjectURL(file)); 
+      setImage(URL.createObjectURL(file));
+      const formData = new FormData();
+      formData.append("file", file);
+
+      try {
+        const response = await fetch("http://localhost:5000/file/upload", {
+          method: "POST",
+          body: formData,
+        });
+
+        if (response.ok) {
+          const responseData = await response.json();
+          alert("File uploaded successfully! File URL: " + responseData.data);
+        } else {
+          console.error("Failed to upload the file");
+        }
+      } catch (error) {
+        console.error("Error uploading the file:", error);
+      }
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    const formData = new FormData();
-    formData.append('name', name);
-    if (selectedImage) {
-      formData.append('image', selectedImage);
+  const handleSubmit = async () => {
+    const data={
+      id:"id",
+      username:name,
+      userProfile:image
     }
-
     try {
-      const response = await fetch('/api/profile', {
-        method: 'POST',
-        body: formData,
-      });
-
-      if (response.ok) {
-        alert('Profile updated successfully!');
-      } else {
-        console.error('Failed to update profile');
-      }
-    } catch (error) {
-      console.error('Error:', error);
+      const response = await post("user/update-user-profile", data);
+      console.log(response,"response")
+    } catch (err: unknown) {
+    
     }
   };
 
   return (
     <div className="max-w-lg mx-auto mt-10 p-4 border border-gray-300 rounded-lg shadow-md">
       <h2 className="text-2xl font-bold mb-4">Edit Profile</h2>
-      <form onSubmit={handleSubmit}>
+      <form>
         <div className="mb-4">
-          <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="name"
+            className="block text-sm font-medium text-gray-700"
+          >
             Name
           </label>
           <input
@@ -62,7 +72,10 @@ export default function ProfilePage() {
         </div>
 
         <div className="mb-4">
-          <label htmlFor="profileImage" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="profileImage"
+            className="block text-sm font-medium text-gray-700"
+          >
             Profile Image
           </label>
           <div className="flex items-center mt-2">
@@ -81,12 +94,9 @@ export default function ProfilePage() {
           </div>
         </div>
 
-        <button
-          type="submit"
-          className="mt-6 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md"
-        >
-          Save Profile
-        </button>
+        <div>
+          <button onClick={handleSubmit} className="px-8 py-4 rounded bg-[#164e63] text-white">Submit </button>
+        </div>
       </form>
     </div>
   );

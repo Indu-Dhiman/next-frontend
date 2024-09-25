@@ -18,6 +18,11 @@ const Sidebar = () => {
       ? [
           { name: "Dashboard", path: "/admin/dashboard", icon: <FiHome /> },
           { name: "Settings", path: "/admin/settings", icon: <FiSettings /> },
+          {
+            name: "User Details",
+            path: "/admin/userDetails",
+            icon: <FiSettings />,
+          },
         ]
       : [
           { name: "Dashboard", path: "/user/dashboard", icon: <FiHome /> },

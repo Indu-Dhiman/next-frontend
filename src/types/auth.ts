@@ -8,6 +8,8 @@ export interface SignupResponse {
     accessToken: string;
     user: {
       role: 'admin' | 'user';
+      username:string,
+      id:string
     };
   };
 }

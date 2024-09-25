@@ -9,10 +9,17 @@ import React from "react";
 
 const Signup = () => {
   const { login } = useAuth();
+  
   const handleSignup = async (data: SignupData) => {
     try {
       const response: SignupResponse = await post("user/signup", data);
-      login(response.data?.accessToken, response.data?.user?.role,response?.data?.user?.username);
+      const user = {
+        id: response.data?.user?.id,
+        username: response.data?.user?.username,
+        role: response.data?.user?.role,
+        // Include any other necessary user properties
+      };
+      login(response.data?.accessToken, user);
     } catch (err: unknown) {
       // Type guard to check if err is an ErrorResponse
       if (typeof err === 'object' && err !== null && 'code' in err) {

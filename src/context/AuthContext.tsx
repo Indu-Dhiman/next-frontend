@@ -3,67 +3,62 @@ import { createContext, useContext, useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 
+type User = {
+  id: string;
+  username: string;
+  role: "admin" | "user";
+  // Add other user properties if needed
+};
+
 type AuthContextType = {
+  user: User | null;
   token: string | null;
-  role: "admin" | "user" | null;
-  username:string |null ;
-  login: (token: string, role: "admin" | "user",username:any) => void;
+  login: (token: string, user: User) => void;
   logout: () => void;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
 
+  const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
-  const [role, setRole] = useState<"admin" | "user" | null>(null);
-  const [username, setUsername] = useState<string | null>(null);
 
   useEffect(() => {
-    const token = Cookies.get("token");
-    const userRole = Cookies.get("role");
-    const username = Cookies.get("username");
+    const storedToken = Cookies.get("token");
+    const storedUser = Cookies.get("user");
 
-    if (token && userRole && username) {
-      setToken(token);
-      setRole(userRole as "admin" | "user");
-      setUsername(username);
-      router.push(userRole === "admin" ? "/admin/dashboard" : "/user/home");
+    if (storedToken && storedUser) {
+      setToken(storedToken);
+      setUser(JSON.parse(storedUser));
+      router.push(user?.role === "admin" ? "/admin/dashboard" : "/user/home");
     }
   }, [router]);
 
-  const login = (token: string, userRole: "admin" | "user", username: string) => {
+  const login = (token: string, user: User) => {
     Cookies.set("token", token);
-    Cookies.set("role", userRole);
-    Cookies.set("username", username);
+    Cookies.set("user", JSON.stringify(user)); 
     setToken(token);
-    setRole(userRole);
-    setUsername(username);
+    setUser(user);
 
-    if (userRole === "admin") {
-      router.push("/admin/dashboard");
-    } else {
-      router.push("/user/home");
-    }
+    router.push(user.role === "admin" ? "/admin/dashboard" : "/user/home");
   };
 
   const logout = () => {
     Cookies.remove("token");
-    Cookies.remove("role");
-    Cookies.remove("username");
+    Cookies.remove("user");
     setToken(null);
-    setRole(null);
-    setUsername(null);
+    setUser(null);
     router.push("/auth/login");
   };
 
   return (
-    <AuthContext.Provider value={{ token, role, login, logout, username }}>
+    <AuthContext.Provider value={{ user, token, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
 };
-
 
 export const useAuth = () => {
   const context = useContext(AuthContext);

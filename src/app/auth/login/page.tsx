@@ -13,8 +13,16 @@ const Login = () => {
   const handleLogin = async (data: SignupData) => {
     try {
       const response: SignupResponse = await post("user/login", data);
-      console.log(response,"response")
-      login(response.data?.accessToken, response.data?.user?.role ,response?.data?.user?.username);
+      console.log(response, "response");
+  
+      const user = {
+        id: response.data?.user?.id,
+        username: response.data?.user?.username,
+        role: response.data?.user?.role,
+        // Include any other necessary user properties
+      };
+  
+      login(response.data?.accessToken, user);
     } catch (err: unknown) {
       if (typeof err === 'object' && err !== null && 'code' in err) {
         const error = err as ErrorResponse; 
@@ -24,6 +32,7 @@ const Login = () => {
       }
     }
   };
+  
 
   return (
     <div className="h-screen flex items-center justify-center">
