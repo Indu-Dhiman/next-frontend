@@ -5,7 +5,7 @@ import { useState } from "react";
 import { FiMenu, FiX, FiHome, FiSettings, FiUser } from "react-icons/fi"; // Icons
 
 const Sidebar = () => {
-  const { role } = useAuth();
+  const { user } = useAuth();
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -14,7 +14,7 @@ const Sidebar = () => {
   };
 
   const menuItems =
-    role === "admin"
+    user?.role === "admin"
       ? [
           { name: "Dashboard", path: "/admin/dashboard", icon: <FiHome /> },
           { name: "Settings", path: "/admin/settings", icon: <FiSettings /> },
@@ -37,7 +37,7 @@ const Sidebar = () => {
           {isOpen ? <FiX size={24} /> : <FiMenu size={24} />}
         </button>
         <span className="text-lg font-bold">
-          {role === "admin" ? "Admin Panel" : "User Panel"}
+          {user?.role === "admin" ? "Admin Panel" : "User Panel"}
         </span>
       </div>
 
@@ -48,7 +48,7 @@ const Sidebar = () => {
       >
         <div className="p-4">
           <h2 className="text-2xl font-bold mb-8">
-            {role === "admin" ? "Admin Panel" : "User Panel"}
+            {user?.role === "admin" ? "Admin Panel" : "User Panel"}
           </h2>
           <nav>
             <ul>

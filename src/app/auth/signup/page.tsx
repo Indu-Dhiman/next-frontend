@@ -17,6 +17,8 @@ const Signup = () => {
         id: response.data?.user?.id,
         username: response.data?.user?.username,
         role: response.data?.user?.role,
+        userProfile:response?.data?.user?.userProfile
+
         // Include any other necessary user properties
       };
       login(response.data?.accessToken, user);

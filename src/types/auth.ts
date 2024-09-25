@@ -7,6 +7,7 @@ export interface SignupResponse {
   data: {
     accessToken: string;
     user: {
+      userProfile: any;
       role: 'admin' | 'user';
       username:string,
       id:string

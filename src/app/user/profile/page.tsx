@@ -1,11 +1,23 @@
 "use client";
+import { useAuth } from "@/context/AuthContext";
 import { post } from "@/lib/API";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 export default function ProfilePage() {
-  const [name, setName] = useState<any>(null);
-  const [image, setImage] = useState<any>(null);
-  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const { user, setUser } = useAuth();
+  const [name, setName] = useState<string>("");
+  const [image, setImage] = useState<string>("");
+
+  useEffect(() => {
+    // Retrieve user data from local storage
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      const parsedUser = JSON.parse(storedUser);
+      setUser(parsedUser);
+      setName(parsedUser.username || "");
+      setImage(parsedUser.userProfile || "");
+    }
+  }, [setUser]);
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -14,8 +26,6 @@ export default function ProfilePage() {
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
-      setSelectedImage(file);
-      setImage(URL.createObjectURL(file));
       const formData = new FormData();
       formData.append("file", file);
 
@@ -27,7 +37,11 @@ export default function ProfilePage() {
 
         if (response.ok) {
           const responseData = await response.json();
-          alert("File uploaded successfully! File URL: " + responseData.data);
+          setImage(responseData.data);
+          // Update userProfile in local storage
+          const updatedUser = { ...user, userProfile: responseData.data };
+          setUser(updatedUser);
+          localStorage.setItem("user", JSON.stringify(updatedUser));
         } else {
           console.error("Failed to upload the file");
         }
@@ -38,16 +52,28 @@ export default function ProfilePage() {
   };
 
   const handleSubmit = async () => {
-    const data={
-      id:"id",
-      username:name,
-      userProfile:image
-    }
+    const data: any = {
+      id: user?.id,
+      username: name,
+      userProfile: image,
+    };
+
     try {
       const response = await post("user/update-user-profile", data);
-      console.log(response,"response")
+
+      if (response?.data) {
+        const updatedUser = {
+          ...user,
+          username: response.data.user?.username,
+          userProfile: response.data.user.userProfile,
+        };
+        setUser(updatedUser);
+        localStorage.setItem("user", JSON.stringify(updatedUser)); // Persist updated user data
+      }
+
+      console.log(response, "response");
     } catch (err: unknown) {
-    
+      console.error("Error updating profile", err);
     }
   };
 
@@ -65,6 +91,7 @@ export default function ProfilePage() {
           <input
             type="text"
             id="name"
+            name="name"
             value={name}
             onChange={handleNameChange}
             className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
@@ -80,7 +107,7 @@ export default function ProfilePage() {
           </label>
           <div className="flex items-center mt-2">
             <img
-              src={image}
+              src={image || "/default-profile.png"}
               alt="Profile"
               className="w-20 h-20 object-cover rounded-full border border-gray-300"
             />
@@ -95,7 +122,13 @@ export default function ProfilePage() {
         </div>
 
         <div>
-          <button onClick={handleSubmit} className="px-8 py-4 rounded bg-[#164e63] text-white">Submit </button>
+          <button
+            type="button"
+            onClick={handleSubmit}
+            className="px-8 py-4 rounded bg-[#164e63] text-white"
+          >
+            Submit
+          </button>
         </div>
       </form>
     </div>

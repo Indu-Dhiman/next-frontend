@@ -2,11 +2,14 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
+import {isTokenExpired}  from "../utils/tokenHelper"
 
 type User = {
+  userProfile: string;
   id: string;
   username: string;
   role: "admin" | "user";
+  
   // Add other user properties if needed
 };
 
@@ -15,6 +18,7 @@ type AuthContextType = {
   token: string | null;
   login: (token: string, user: User) => void;
   logout: () => void;
+  setUser:any
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -30,9 +34,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const storedUser = Cookies.get("user");
 
     if (storedToken && storedUser) {
-      setToken(storedToken);
-      setUser(JSON.parse(storedUser));
-      router.push(user?.role === "admin" ? "/admin/dashboard" : "/user/home");
+      if (isTokenExpired(storedToken)) {
+        logout(); 
+      } else {
+        setToken(storedToken);
+        setUser(JSON.parse(storedUser));
+        router.push(user?.role === "admin" ? "/admin/dashboard" : "/user/home");
+      }
+    } else {
+      router.push("/auth/login");
     }
   }, [router]);
 
@@ -54,7 +64,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, login, logout }}>
+    <AuthContext.Provider value={{ user, token, login, logout ,setUser}}>
       {children}
     </AuthContext.Provider>
   );

@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation';
 import { FiLogOut, FiUser } from 'react-icons/fi'; 
 
 const Header = () => {
-  const {  role, logout } = useAuth();
+  const { user, logout } = useAuth();
   const router = useRouter();
 
   const handleLogout = () => {
@@ -16,7 +16,7 @@ const Header = () => {
       <div className="flex items-center">
         <FiUser className="text-2xl mr-2" />
         <h1 className="text-xl font-bold">
-          {role === 'admin' ? 'Welcome Admin' : 'Welcome User'}
+         {`Welcome ${user?.username}`}
         </h1>
       </div>
       <button

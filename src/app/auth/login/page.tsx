@@ -19,7 +19,7 @@ const Login = () => {
         id: response.data?.user?.id,
         username: response.data?.user?.username,
         role: response.data?.user?.role,
-        // Include any other necessary user properties
+        userProfile:response?.data?.user?.userProfile
       };
   
       login(response.data?.accessToken, user);
