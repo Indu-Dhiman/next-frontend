@@ -13,7 +13,8 @@ const Login = () => {
   const handleLogin = async (data: SignupData) => {
     try {
       const response: SignupResponse = await post("user/login", data);
-      login(response.data?.accessToken, response.data?.user?.role);
+      console.log(response,"response")
+      login(response.data?.accessToken, response.data?.user?.role ,response?.data?.user?.username);
     } catch (err: unknown) {
       if (typeof err === 'object' && err !== null && 'code' in err) {
         const error = err as ErrorResponse; 

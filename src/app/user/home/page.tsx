@@ -1,4 +1,3 @@
-// pages/user/home.tsx
 "use client"
 import ProtectedRoute from '../../../components/ProtectedRoute';
 
@@ -6,7 +5,6 @@ const UserHome = () => {
   return (
     <ProtectedRoute>
       <h1>User Home</h1>
-      {/* User content here */}
     </ProtectedRoute>
   );
 };

@@ -20,10 +20,10 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <AuthProvider>
-          <ProtectedRoute>
+          {/* <ProtectedRoute> */}
             <ToastContainer />
             <Layout>{children}</Layout>
-          </ProtectedRoute>
+          {/* </ProtectedRoute> */}
         </AuthProvider>
       </body>
     </html>

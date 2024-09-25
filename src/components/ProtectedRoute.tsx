@@ -4,26 +4,25 @@ import { useRouter, usePathname } from 'next/navigation';
 import { useEffect } from 'react';
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  const { user, role } = useAuth()
+  const { token, role } = useAuth()
   const router = useRouter();
   const pathname = usePathname()
 
 
   useEffect(() => {
-    if (!user) {
-      console.log(user,"op")
+    if (!token) {
       router.push('/auth/login');
     } 
-    else if(!user &&  pathname.startsWith('/auth/signup')){
+    else if(!token &&  pathname.includes('/auth/signup')){
       router.push('/auth/signup');
     }else if (role === 'admin' && pathname !== '/admin/dashboard') {
       router.push('/admin/dashboard');
     } else if (role === 'user' && pathname !== '/user/home') {
       router.push('/user/home');
     }
-  }, [user, role, pathname, router]);
+  }, [token, role, pathname, router]);
 
-  return <>{user ? children : null}</>;
+  return <>{ children}</>;
 };
 
 export default ProtectedRoute;

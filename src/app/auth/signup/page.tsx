@@ -12,7 +12,7 @@ const Signup = () => {
   const handleSignup = async (data: SignupData) => {
     try {
       const response: SignupResponse = await post("user/signup", data);
-      login(response.data?.accessToken, response.data?.user?.role);
+      login(response.data?.accessToken, response.data?.user?.role,response?.data?.user?.username);
     } catch (err: unknown) {
       // Type guard to check if err is an ErrorResponse
       if (typeof err === 'object' && err !== null && 'code' in err) {
