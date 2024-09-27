@@ -1,11 +1,11 @@
 "use client"
-import ProtectedRoute from '../../../components/ProtectedRoute';
+// import ProtectedRoute from '../../../components/ProtectedRoute';
 
 const UserHome = () => {
   return (
-    <ProtectedRoute>
+    // <ProtectedRoute>
       <h1>User Home</h1>
-    </ProtectedRoute>
+    // </ProtectedRoute>
   );
 };
 

@@ -9,7 +9,6 @@ export default function ProfilePage() {
   const [image, setImage] = useState<string>("");
 
   useEffect(() => {
-    // Retrieve user data from local storage
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
       const parsedUser = JSON.parse(storedUser);
@@ -59,7 +58,7 @@ export default function ProfilePage() {
     };
 
     try {
-      const response = await post("user/update-user-profile", data);
+      const response:any = await post("user/update-user-profile", data);
 
       if (response?.data) {
         const updatedUser = {

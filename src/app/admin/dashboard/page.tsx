@@ -1,10 +1,10 @@
-import ProtectedRoute from '../../../components/ProtectedRoute';
+// import ProtectedRoute from '../../../components/ProtectedRoute';
 
 const AdminDashboard = () => {
   return (
-    <ProtectedRoute>
+    // <ProtectedRoute>
       <h1>Admin Dashboard</h1>
-    </ProtectedRoute>
+    // </ProtectedRoute>
   );
 };
 
