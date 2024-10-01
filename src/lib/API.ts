@@ -1,20 +1,28 @@
-
+import Cookies from "js-cookie";
 
 const headers = {
   'Content-Type': 'application/json',
 };
-
+const storedToken = Cookies.get("token"); // Dynamically get the token here
+console.log(storedToken,"======")
 // Common GET request function
 export async function get<T>(url: string): Promise<T> {
+
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${url}`, {
     method: 'GET',
-    headers,
+    headers: {
+      'Authorization': `Bearer ${storedToken}`, // Automatically add the token
+      ...headers, // Include other headers if necessary
+    },
   });
+
   if (!response.ok) {
     throw new Error(`Error: ${response.statusText}`);
   }
+
   return response.json();
 }
+
 
 export async function post<T>(url: string, data: unknown): Promise<T> {
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${url}`, {

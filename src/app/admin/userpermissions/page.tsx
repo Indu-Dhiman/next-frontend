@@ -8,16 +8,15 @@ import Button from '@/components/buttons/Button';
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
-// Define the valid colors for options
 type CustomColor = 'red' | 'green' | 'orange' | 'gray';
 
 interface Option {
   label: string;
-  color: CustomColor; // Allow custom colors
+  color: CustomColor;
 }
 
 interface MenuItem {
-  id: number; // Assuming each menu item has a unique ID
+  id: number; 
   permissions: {
     create: boolean;
     edit: boolean;
@@ -34,14 +33,14 @@ export default function UserPermissions() {
     { id: 'index', label: 'Id' },
     { id: 'createdAt', label: 'Date' },
     { id: 'name', label: 'Menu Name' },
-    { id: 'actions', label: 'Actions' } // Action column
+    { id: 'actions', label: 'Actions' }
   ];
 
   const options: Option[] = [
-    { label: "Create", color: "green" },   // Use green for Add
-    { label: "Edit", color: "orange" }, // Use orange for Edit
-    { label: "Delete", color: "red" },   // Use red for Delete
-    { label: "View", color: "gray" },    // Use gray for View
+    { label: "Create", color: "green" }, 
+    { label: "Edit", color: "orange" }, 
+    { label: "Delete", color: "red" },   
+    { label: "View", color: "gray" },    
   ];
 
   useEffect(() => {
