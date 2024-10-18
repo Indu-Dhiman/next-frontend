@@ -11,9 +11,10 @@ export async function get<T>(url: string): Promise<T> {
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${url}`, {
     method: 'GET',
     headers: {
-      'Authorization': `Bearer ${storedToken}`, // Automatically add the token
-      ...headers, // Include other headers if necessary
+      'Authorization': `Bearer ${storedToken}`,
+      ...headers, 
     },
+    credentials: 'include',
   });
 
   if (!response.ok) {
@@ -62,7 +63,12 @@ export async function put<T>(url: string, data: unknown): Promise<T> {
 export async function del<T>(url: string): Promise<T> {
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${url}`, {
     method: 'DELETE',
-    headers,
+    headers: {
+      'Authorization': `Bearer ${storedToken}`,
+      ...headers, 
+    },
+      credentials: 'include',
+
   });
   if (!response.ok) {
     throw new Error(`Error: ${response.statusText}`);

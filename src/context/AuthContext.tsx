@@ -39,7 +39,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       } else {
         setToken(storedToken);
         setUser(JSON.parse(storedUser));
-        router.push(user?.role === "admin" ? "/admin/dashboard" : "/user/home");
+        router.push(user?.role === "admin" ? "/admin/dashboard" : "/user/dashboard");
       }
     } else {
       router.push("/auth/login");
@@ -52,7 +52,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setToken(token);
     setUser(user);
 
-    router.push(user.role === "admin" ? "/admin/dashboard" : "/user/home");
+    router.push(user.role === "admin" ? "/admin/dashboard" : "/user/dashboard");
   };
 
   const logout = () => {

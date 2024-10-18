@@ -11,6 +11,7 @@ interface AuthFormProps {
     email: string;
     password: string;
     role?: string;
+    platform?:string;
   }) => void;
 }
 
@@ -20,6 +21,8 @@ const AuthForm: React.FC<AuthFormProps> = ({ type, onSubmit }) => {
     email: "",
     password: "",
     role: type === "signup" ? "user" : undefined,
+    platform:"email"
+
   };
 
   return (

@@ -28,6 +28,11 @@ const Sidebar = () => {
             path: "/admin/userpermissions",
             icon: <FiSettings />,
           },
+          {
+            name: "Messages",
+            path: "/admin/chats",
+            icon: <FiSettings />,
+          },
         ]
       : [
           { name: "Dashboard", path: "/user/dashboard", icon: <FiHome /> },
@@ -35,6 +40,7 @@ const Sidebar = () => {
           { name: "Home", path: "/user/home", icon: <FiHome /> },
           { name: "Profile", path: "/user/profile", icon: <FiUser /> },
           { name: "Blogs", path: "/user/blogs", icon: <FiUser /> },
+          { name: "Messages", path: "/user/chats", icon: <FiUser /> },
         ];
 
   return (

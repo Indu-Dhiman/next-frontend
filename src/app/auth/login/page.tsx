@@ -23,6 +23,8 @@ const Login = () => {
         username: response.data?.user?.username,
         role: response.data?.user?.role,
         userProfile: response?.data?.user?.userProfile,
+   
+
       };
 
       login(response.data?.accessToken, user);
@@ -31,56 +33,56 @@ const Login = () => {
     }
   };
 
-  const socialSignIn = async (e: any, platform: string) => {
-    e.preventDefault();
-    try {
-      let userData;
-      if (platform === "google") {
-        userData = await googleSignIn();
-      } else if (platform === "facebook") {
-        userData = await facebookSignIn();
-      } else if (platform === "apple") {
-        userData = await appleSignIn();
-      }
+  // const socialSignIn = async (e: any, platform: string) => {
+  //   e.preventDefault();
+  //   try {
+  //     let userData;
+  //     if (platform === "google") {
+  //       userData = await googleSignIn();
+  //     } else if (platform === "facebook") {
+  //       userData = await facebookSignIn();
+  //     } else if (platform === "apple") {
+  //       userData = await appleSignIn();
+  //     }
 
-      if (userData && userData.email) {
-        const mainFormData = {
-          firstname: userData?.displayName,
-          email: userData?.email,
-          mobilenumber: userData?.phoneNumber,
-          platform: platform,
-        };
-        const url = "api/v1/loginRegister";
-        const mainResponse :any= await post(url, mainFormData);
-        if (mainResponse.success === true) {
-          const searchText = localStorage.getItem("initialdata");
-          if (searchText == "" || searchText == null) {
-            router.push("/home");
+  //     if (userData && userData.email) {
+  //       const mainFormData = {
+  //         firstname: userData?.displayName,
+  //         email: userData?.email,
+  //         mobilenumber: userData?.phoneNumber,
+  //         platform: platform,
+  //       };
+  //       const url = "api/v1/loginRegister";
+  //       const mainResponse :any= await post(url, mainFormData);
+  //       if (mainResponse.success === true) {
+  //         const searchText = localStorage.getItem("initialdata");
+  //         if (searchText == "" || searchText == null) {
+  //           router.push("/home");
 
-          } else {
-            router.push("/review")
-          }
-          // toasterSuccess(
-          //   "Login SucessFully",
-          //   1000, mainResponse?.result?.id
-          // );
-        } else {
-          // toasterError(mainResponse?.error, 3000, "id");
-          // setIsSubmitting(false);
-        }
-      } else {
-        console.error("User or email is null");
-      }
-    } catch (error) {
-      console.error("Error during social sign-in:", error);
-      // setIsSubmitting(false);
-    }
-  };
+  //         } else {
+  //           router.push("/review")
+  //         }
+  //         // toasterSuccess(
+  //         //   "Login SucessFully",
+  //         //   1000, mainResponse?.result?.id
+  //         // );
+  //       } else {
+  //         // toasterError(mainResponse?.error, 3000, "id");
+  //         // setIsSubmitting(false);
+  //       }
+  //     } else {
+  //       console.error("User or email is null");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error during social sign-in:", error);
+  //     // setIsSubmitting(false);
+  //   }
+  // };
 
   return (
     <div className="h-screen flex items-center justify-center">
       <AuthForm type="login" onSubmit={handleLogin} />
-      <div className="flex space-x-4 mt-4 text-center">
+      {/* <div className="flex space-x-4 mt-4 text-center">
         <button
           className="w-1/3 bg-blue-500 text-white px-4 py-2 rounded-md bg-red-600 focus:outline-none"
           onClick={(e) => socialSignIn(e, "google")}
@@ -123,7 +125,7 @@ const Login = () => {
           />
           <b className=" text-white font-normal">Apple</b>
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };

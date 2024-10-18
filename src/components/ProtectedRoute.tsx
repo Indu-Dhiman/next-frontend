@@ -17,8 +17,8 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
       router.push('/auth/signup');
     }else if (user.role === 'admin' && pathname !== '/admin/dashboard') {
       router.push('/admin/dashboard');
-    } else if (user.role === 'user' && pathname !== '/user/home') {
-      router.push('/user/home');
+    } else if (user.role === 'user' && pathname !== '/user/dashboard') {
+      router.push('/user/dashboard');
     }
   }, [token, user.role, pathname, router]);
 
