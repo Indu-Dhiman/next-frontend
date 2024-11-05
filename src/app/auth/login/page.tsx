@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React ,{useEffect} from "react";
 import AuthForm from "@/components/AuthForm";
 import { useAuth } from "@/context/AuthContext";
 import { post } from "@/lib/API";
@@ -10,9 +10,36 @@ import { useRouter } from "next/navigation";
 const Login = () => {
   const { login } = useAuth();
   const router = useRouter();
-
+useEffect(()=>{
+  const getData = async () => {
+    let res = await fetch("https://app.euka.ai/api/full-creator-search", {
+      // headers: {
+      //   accept: "*/*",
+      //   "accept-language": "en-US,en;q=0.9",
+      //   "cache-control": "no-cache",
+      //   "content-type": "application/json",
+      //   pragma: "no-cache",
+      //   priority: "u=1, i",
+      //   "sec-ch-ua":
+      //     '"Chromium";v="130", "Google Chrome";v="130", "Not?A_Brand";v="99"',
+      //   "sec-ch-ua-mobile": "?0",
+      //   "sec-ch-ua-platform": '"Windows"',
+      //   "sec-fetch-dest": "empty",
+      //   "sec-fetch-mode": "cors",
+      //   "sec-fetch-site": "same-site",
+      //   Referer: "https://www.euka.ai/",
+      //   "Referrer-Policy": "strict-origin-when-cross-origin",
+      // },
+      body: '{"page":1,"perPage":10,"query":"okss","emailNotNull":false,"targetCategories":[],"targetFollowerCounts":[],"targetGMVs":[],"targetGender":"","targetLanguages":[]}',
+      method: "POST",
+    });
+    console.log(res, "res");
+    let data = await res.json();
+    console.log(data, "data");
+  };
+  getData();
+},[])
   // const { googleSignIn, facebookSignIn, appleSignIn } = useLoginAuth();
-
   const handleLogin = async (data: any) => {
     try {
       const response: any = await post("user/login", data);
